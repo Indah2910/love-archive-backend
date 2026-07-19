@@ -1,0 +1,112 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(100)
+  email     String   @unique @db.VarChar(150)
+  password  String   @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("users")
+}
+
+model StoryEntry {
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(200)
+  description String   @db.Text
+  date        DateTime @db.Date
+  image       String?  @db.VarChar(255)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("story_entries")
+}
+
+model GalleryItem {
+  id        Int      @id @default(autoincrement())
+  url       String   @db.VarChar(255)
+  caption   String?  @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("gallery_items")
+}
+
+model Memory {
+  id        Int      @id @default(autoincrement())
+  title     String   @db.VarChar(200)
+  story     String   @db.Text
+  date      DateTime @db.Date
+  image     String?  @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("memories")
+}
+
+model GuestbookEntry {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(100)
+  message   String   @db.VarChar(500)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("guestbook_entries")
+}
+
+enum LetterFrom {
+  Indah
+  Zacky
+}
+
+model LoveLetter {
+  id        Int        @id @default(autoincrement())
+  from      LetterFrom
+  title     String     @db.VarChar(200)
+  content   String     @db.Text
+  date      DateTime   @db.Date
+  createdAt DateTime   @default(now()) @map("created_at")
+
+  @@map("love_letters")
+}
+
+model PlaylistSong {
+  id        Int      @id @default(autoincrement())
+  title     String   @db.VarChar(200)
+  artist    String   @db.VarChar(150)
+  link      String   @db.VarChar(255)
+  note      String?  @db.VarChar(255)
+  sortOrder Int      @default(0) @map("sort_order")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("playlist_songs")
+}
+
+model BucketListItem {
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(200)
+  description String?  @db.VarChar(255)
+  done        Boolean  @default(false)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("bucket_list_items")
+}
+
+model Profile {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique @db.VarChar(100)
+  role      String?  @db.VarChar(150)
+  bio       String   @db.Text
+  photo     String?  @db.VarChar(255)
+  instagram String?  @db.VarChar(255)
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("profiles")
+}
